@@ -20,7 +20,8 @@ class Admin::CompaniesController < AdminController
 	end
 
 	def show
-		@company = Company.find(params[:id])
+		@company = Company.includes(:offices).find(params[:id])
+		@office = Office.new
 	end
 
 	private

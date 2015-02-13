@@ -1,3 +1,13 @@
-<tr>
-	<td><%= company.name %></td>
+<tr class=<%= company.locked? ? "danger" : "" %>>
+	<td> 
+		<%= link_to "#{company.name}", admin_company_path(company) %>
+	</td>
+	<td>
+		<% if !company.locked? %>
+			<button id=<%=company.id %> class="btn btn-danger">Lock</button>
+		<% else %>
+			<button id=<%=company.id %> class="btn btn-default">Unlock</button>
+		<% end %>
+	</td>
+
 </tr>

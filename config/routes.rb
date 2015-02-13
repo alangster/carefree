@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   namespace :admin do 
     
     get 'dashboard', to: 'dashboard#dashboard'
-    resources :companies 
+    resources :companies do 
+      resources :offices, only: [:create, :edit]
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
