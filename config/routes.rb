@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   
   root 'static#index'
 
-  get '/login' => 'sessions#new', as: :login
+  resources :sessions, only: [:new, :create], as: :login
+  get 'logout', to: 'sessions#destroy', as: :logout 
 
   resources :users, only: [:create, :new, :edit, :show] 
 
