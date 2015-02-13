@@ -2,13 +2,13 @@ class Admin::CompaniesController < AdminController
 
 	def index
 		@company = Company.new
-		@companies = Company.all
+		@companies = Company.all.order(:created_at)
 	end
 
 	def create
 		@company = Company.new(new_company_attributes)
 		if @company.save
-			redirect_to @company
+			redirect_to admin_company_path(@company)
 		else
 			@error = "Could not add company"
 			render :index
@@ -22,6 +22,16 @@ class Admin::CompaniesController < AdminController
 	def show
 		@company = Company.includes(:offices).find(params[:id])
 		@office = Office.new
+	end
+
+	def lock
+		if company = Company.find(params[:id])
+			p company
+			company.toggle!(:locked) 
+			render nothing: true, status: 200
+		else
+			render nothing: true, status: 500
+		end
 	end
 
 	private
