@@ -7,8 +7,15 @@ class SessionsController < ApplicationController
 
 	def create
 		user = User.find_by(email: params[:email])
-		if user && user.password == params[:password]
+		p user
+		if user && user.authenticate(params[:password])
 			session[:user_id] = user.id
+			if current_user.admin?
+				p "ADMIN"
+				redirect_to admin_dashboard_path
+			else
+
+			end
 		else
 			@error = "Incorrect email and/or password"
 			render :new
