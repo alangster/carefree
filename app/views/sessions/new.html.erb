@@ -16,6 +16,9 @@
 				<%= submit_tag "Log In", class: 'btn btn-default' %>
 			</div>
 		<% end %>
+		<% if @error %>
+			<div class="bg-danger"><%= @error %></div>
+		<% end %>
 	</div>
 
 	<div class="col-md-4"></div>
