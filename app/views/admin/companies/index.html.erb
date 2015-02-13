@@ -11,3 +11,31 @@
 	</div>
 	<div class="col-md-3"></div>
 </div>
+
+<script>
+	$(function() {
+
+		var changeLockedClass = function(row) {
+			$(row).hasClass('danger') ? $(row).removeClass('danger') : $(row).addClass('danger');
+		}
+
+		var swapButton = function(button) {
+			if (button.hasClass('btn-danger')) {
+				button.removeClass('btn-danger').addClass('btn-default');
+				button.text('Unlock');
+			} else {
+				button.removeClass('btn-default').addClass('btn-danger');
+				button.text('Lock');
+			}
+		}
+
+		$('button.lock').on('click', function() {
+			var companyId = {id: $(this).attr('id')};
+			var $button = $(this);
+			$.post('/admin/lock', companyId).success(function() {
+				swapButton($button);
+				changeLockedClass($button.parent().parent('tr')[0])})
+		});
+
+	});
+</script>

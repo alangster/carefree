@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :admin do 
     
     get 'dashboard', to: 'dashboard#dashboard'
+    post 'lock', to: 'companies#lock'
     resources :companies do 
       resources :offices, only: [:create, :edit]
     end

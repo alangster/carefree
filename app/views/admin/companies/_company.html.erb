@@ -4,9 +4,9 @@
 	</td>
 	<td>
 		<% if !company.locked? %>
-			<button id=<%=company.id %> class="btn btn-danger">Lock</button>
+			<button id=<%= company.id %> class="lock btn btn-danger">Lock</button>
 		<% else %>
-			<button id=<%=company.id %> class="btn btn-default">Unlock</button>
+			<button id=<%= company.id %> class="lock btn btn-default">Unlock</button>
 		<% end %>
 	</td>
 
