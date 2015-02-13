@@ -8,11 +8,20 @@ class Admin::CompaniesController < AdminController
 	def create
 		@company = Company.new(new_company_attributes)
 		if @company.save
-			redirect_to index, notice: "#{@company.name} saved!"
+			redirect_to @company
 		else
 			@error = "Could not add company"
 			render :index
 		end
+	end
+
+	def new
+		@company = Company.new
+	end
+
+	def show
+		@company = Company.includes(:offices).find(params[:id])
+		@office = Office.new
 	end
 
 	private
