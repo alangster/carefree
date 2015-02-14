@@ -1,14 +1,13 @@
 class Admin::OfficesController < AdminController
 
 	def create
-		p "DINGGGG"
+		p params
 		@office = Office.new(new_office_params)
 		@company = Company.find(params[:company_id])
 		@office.company = @company
 		if @office.save!
-			p "SAVED"
 			OfficeMailer.new_office_signup(@office).deliver
-			redirect_to @company
+			redirect_to admin_company_path(@company)
 		else
 			render 'company/show'
 		end

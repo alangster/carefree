@@ -1,3 +1,6 @@
+Role.destroy_all
+User.destroy_all
+
 # create the roles for the entire app
 
 Role.create!(name: 'HR')

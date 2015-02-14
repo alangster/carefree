@@ -1,6 +1,9 @@
 class Admin::CompaniesController < AdminController
 
+	p "COMPANY CONTROLLER"
+
 	def index
+		p "INDEX"
 		@company = Company.new
 		@companies = Company.all.order(:created_at)
 	end
