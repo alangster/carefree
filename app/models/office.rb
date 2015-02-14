@@ -1,5 +1,7 @@
 class Office < ActiveRecord::Base
 
+	include TokenGenerator
+
 	belongs_to :company
 	has_many :employees, class: 'User'
 
@@ -9,5 +11,7 @@ class Office < ActiveRecord::Base
 
 	has_many :office_vendors
 	has_many :vendors, through: :office_vendors
+
+	before_create { generate_token(:join_token) }
 
 end

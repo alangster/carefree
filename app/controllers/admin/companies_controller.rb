@@ -26,7 +26,6 @@ class Admin::CompaniesController < AdminController
 
 	def lock
 		if company = Company.find(params[:id])
-			p company
 			company.toggle!(:locked) 
 			render nothing: true, status: 200
 		else
