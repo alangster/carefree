@@ -6,6 +6,9 @@ RSpec.describe Admin::OfficesController, :type => :controller do
 		allow(controller).to receive(:require_login).and_return(true)
 		allow(controller).to receive(:require_admin).and_return(true) 
 		allow(Company).to receive(:find).and_return(build(:company))
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
 	end
 
 	after(:all) do 

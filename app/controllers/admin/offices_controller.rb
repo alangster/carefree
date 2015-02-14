@@ -1,7 +1,6 @@
 class Admin::OfficesController < AdminController
 
 	def create
-		p params
 		@office = Office.new(new_office_params)
 		@company = Company.find(params[:company_id])
 		@office.company = @company
