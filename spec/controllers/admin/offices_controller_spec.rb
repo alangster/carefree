@@ -11,17 +11,36 @@ RSpec.describe Admin::OfficesController, :type => :controller do
     ActionMailer::Base.deliveries = []
 	end
 
-	after(:all) do 
-		DatabaseCleaner.clean 
+	after(:each) do 
 		ActionMailer::Base.deliveries.clear
 	end
 
 	describe 'POST new office' do 
-		it 'sends a join email' do 
-			expect(ActionMailer::Base.deliveries.size).to eq(0)
-			post 'create', {office: attributes_for(:office), company_id: 1}
-			expect(ActionMailer::Base.deliveries.size).to eq(1)
+
+		context 'valid office params' do 
+			it 'sends a join email' do 
+				expect(ActionMailer::Base.deliveries.size).to eq(0)
+				post 'create', {office: attributes_for(:office), company_id: 1}
+				expect(ActionMailer::Base.deliveries.size).to eq(1)
+			end
 		end
+
+		context 'invalid office params' do 
+			context 'no contact_email' do 
+				
+				it 'does not send a join email' do 
+					expect(ActionMailer::Base.deliveries.size).to eq(0)
+					post 'create', {office: attributes_for(:office, contact_email: ''), company_id: 1}
+					expect(ActionMailer::Base.deliveries.size).to eq(0)
+				end
+
+				it 'renders the correct template' do 
+					post 'create', {office: attributes_for(:office, contact_email: ''), company_id: 1}
+					expect(response).to render_template('admin/companies/show')
+				end
+			end
+		end
+
 	end
 
 end

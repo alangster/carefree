@@ -4,11 +4,11 @@ class Admin::OfficesController < AdminController
 		@office = Office.new(new_office_params)
 		@company = Company.find(params[:company_id])
 		@office.company = @company
-		if @office.save!
+		if @office.save
 			OfficeMailer.new_office_signup(@office).deliver
 			redirect_to admin_company_path(@company)
 		else
-			render 'company/show'
+			render 'admin/companies/show'
 		end
 	end
 

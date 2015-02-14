@@ -13,6 +13,7 @@ RSpec.describe Office, :type => :model do
 				expect(office.join_token).to be_nil
 				office.save!
 				expect(office.join_token).not_to be_nil
+				office.destroy
 			end
 		end
 	end

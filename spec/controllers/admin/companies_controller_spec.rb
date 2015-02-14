@@ -7,8 +7,7 @@ RSpec.describe Admin::CompaniesController, :type => :controller do
 		allow(controller).to receive(:require_admin).and_return(true) 
 	end
 
-	after(:all) do 
-		DatabaseCleaner.clean 
+	after(:each) do 
 		ActionMailer::Base.deliveries.clear
 	end
 

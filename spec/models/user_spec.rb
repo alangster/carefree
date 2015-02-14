@@ -2,10 +2,6 @@ require 'rails_helper'
 
 RSpec.describe User, :type => :model do
 
-	after(:all) do 
-		DatabaseCleaner.clean
-	end
-
 	describe 'token generator' do 
 		context 'on creation' do 
 			it 'generates a password_reset token' do
@@ -13,6 +9,7 @@ RSpec.describe User, :type => :model do
 				expect(user.password_reset_token).to be_nil
 				user.save!
 				expect(user.password_reset_token).not_to be_nil
+				user.destroy
 			end
 		end
 	end

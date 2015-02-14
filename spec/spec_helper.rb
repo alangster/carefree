@@ -19,7 +19,7 @@ require 'database_cleaner'
 require 'factory_girl_rails'
 require_relative 'support/factory_girl'
 
-DatabaseCleaner[:active_record].strategy = :truncation, {except: %w[roles users]}
+# DatabaseCleaner[:active_record].strategy = :truncation, {except: %w[roles users]}
 
 
 RSpec.configure do |config|
