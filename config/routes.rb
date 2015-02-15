@@ -14,7 +14,13 @@ Rails.application.routes.draw do
   end
 
   get 'signup/office/:office_join_token', to: 'signup#new_office'
-  
+  post 'signup/office/:office_id', to: 'signup#office_contact', as: :office_contact
+
+
+  scope module: 'office' do 
+    resources :users, except: [:create, :show]
+    get 'dashboard', to: 'users#show'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

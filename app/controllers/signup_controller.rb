@@ -10,4 +10,26 @@ class SignupController < ApplicationController
 		end
 	end
 
+	def office_contact
+		if @office = Office.find_by(id: params[:office_id])
+			@user = User.new(new_user_params)
+			@user.office = @office 
+			@user.role = Role.find_by(name: 'HR')
+			if @user.save
+				session[:user_id] = @user.id
+				redirect_to dashboard_path(@user)
+			else
+				render 'new_office'
+			end
+		else
+			redirect_to :root
+		end
+	end
+
+	private
+
+	def new_user_params
+		params.require(:user).permit(:first_name, :last_name, :email, :phone, :photo, :password, :password_confirmation)
+	end
+
 end

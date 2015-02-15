@@ -18,4 +18,13 @@ FactoryGirl.define do
     admin                  true
   end
 
+  factory :new_user, class: 'User' do 
+    first_name            'Joe'
+    last_name             'Bags'
+    sequence(:email)      {|n| "user#{n}@factory.com"}
+    phone                 '8479824300'
+    password              'boom'
+    password_confirmation 'boom'
+  end
+
 end

@@ -4,6 +4,10 @@ module ApplicationHelper
 		@current_user ||= User.find_by(id: session[:user_id])
 	end
 
+	def office_title(office)
+		"#{office.company.name}, #{office.city}"
+	end
+
 	def us_states
 		[
 	 		['AK', 'AK'],

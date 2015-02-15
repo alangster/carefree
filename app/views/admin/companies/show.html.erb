@@ -5,10 +5,11 @@
 	</div>
 	<div class="col-md-4"></div>
 	<div class="col-md-1"></div>
+		
 </div>
 <div class="row">
-	<div class="col-md-1"></div>
-	<div class="col-md-6">
+	<!-- <div class="col-md-1"></div> -->
+	<div class="col-md-8">
 		
 		<div class="table-responsive">
 			<table class="table table-striped">
@@ -16,7 +17,8 @@
 					<th></th>
 					<th>Contact Email</th>
 					<th>Phone</th>
-					<th>Address</th>
+					<th>Street Address</th>
+					<th>City</th>
 					<th>State</th>
 				</tr>
 				<% @company.offices.each.with_index(1) do |office, ind| %>
@@ -25,6 +27,7 @@
 					<td><%= office.contact_email %></td>
 					<td><%= office.phone %></td>
 					<td><%= office.street_address %></td>
+					<td><%= office.city %></td>
 					<td><%= office.state_abbr %></td>
 				</tr>
 				<% end %>
@@ -51,6 +54,10 @@
 				<%= f.text_field :zip_code, class: 'form-control' %>
 			</div>
 			<div class="form-group">
+				<%= f.label :city %>
+				<%= f.text_field :city, class: 'form-control' %>
+			</div>
+			<div class="form-group">
 				<%= f.label :state_abbr, "State" %>
 				<%= f.select :state_abbr, options_for_select(us_states), class: "form-control" %>
 			</div>
@@ -59,5 +66,5 @@
 			</div>
 		<% end %>		
 	</div>
-	<div class="col-md-1"></div>
+	<!-- <div class="col-md-1"></div> -->
 </div>
