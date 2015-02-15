@@ -5,13 +5,21 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create], as: :login
   get 'logout', to: 'sessions#destroy', as: :logout 
 
-  namespace :admin do 
-    
+  namespace :admin do   
     get 'dashboard', to: 'dashboard#dashboard'
     post 'lock', to: 'companies#lock'
     resources :companies do 
       resources :offices, only: [:create, :edit]
     end
+  end
+
+  get 'signup/office/:office_join_token', to: 'signup#new_office'
+  post 'signup/office/:office_id', to: 'signup#office_contact', as: :office_contact
+
+
+  scope module: 'office' do 
+    resources :users, except: [:create, :show]
+    get 'dashboard', to: 'users#show'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

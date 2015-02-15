@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 	has_many :cohort_members
 	has_many :cohorts, through: :cohort_members
 
+	belongs_to :office 
+
 	has_one :budget, as: :budgetable
 
 	has_many :checklists
