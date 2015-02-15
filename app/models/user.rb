@@ -27,5 +27,7 @@ class User < ActiveRecord::Base
 	validates :email, uniqueness: true
 
 	before_create { generate_token(:password_reset_token) }
+	before_create { generate_token(:auth_token) }
+
 
 end

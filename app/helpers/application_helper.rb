@@ -1,7 +1,7 @@
 module ApplicationHelper
 
 	def current_user
-		@current_user ||= User.find_by(id: session[:user_id])
+		@current_user ||= User.find_by(auth_token: cookies[:auth_token]) if cookies[:auth_token]
 	end
 
 	def office_title(office)
