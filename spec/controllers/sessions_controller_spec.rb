@@ -38,7 +38,7 @@ RSpec.describe SessionsController, :type => :controller do
 			end
 		end
 
-		describe 'unsucessful login' do 
+		describe 'unsuccessful login' do 
 			describe 'incorrect password' do 
 				before(:each) do 
 					@user = build(:user, id: 1)
@@ -73,6 +73,25 @@ RSpec.describe SessionsController, :type => :controller do
 				end
 			end
 		end
+	end
+
+	describe 'GET destroy' do 
+		before(:each) do 
+			allow(controller).to receive(:require_login).and_return(true)
+			session[:user_id] = 1
+		end
+
+		it 'clears the session' do 
+			expect(session[:user_id]).to eq(1)
+			get :destroy
+			expect(session[:user_id]).to be_nil
+		end
+
+		it 'redirects to the root' do 
+			get :destroy
+			expect(response).to redirect_to(root_path)
+		end
+
 	end
 
 end
