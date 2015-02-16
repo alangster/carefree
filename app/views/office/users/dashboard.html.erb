@@ -1,10 +1,7 @@
 <div class='row'>
-	<div class='col-md-4' style='border:1px solid grey'>
-		
+	<div class='col-md-4'>
 		<img id='user-photo' class='img-thumbnail' src=<%= current_user.photo || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50" %>>
-
-		<h3><%= current_user.name %></h3>		
-
+		<h3 id='user-name'><%= current_user.name %></h3>		
 	</div>
 	<!-- <div class='col-md-1'></div> -->
 	<div class='col-md-8' style='border:1px solid grey'></div>
