@@ -2,7 +2,7 @@
 	<div class="col-md-4"></div>
 	<div class="col-md-4">
 		<h2><%= office_title(@office) %></h2>
-		<%= form_for @user, { url: office_contact_path(@office), method: 'post' } do |f| %>
+		<%= form_for @user, { url: office_contact_path(@office.join_token), method: 'post' } do |f| %>
 			<%= render partial: 'signup_form', locals: {f: f} %>
 		<% end %>
 	</div>

@@ -15,7 +15,7 @@ class Admin::OfficesController < AdminController
 	private
 
 	def new_office_params
-		params.require(:office).permit(:phone, :street_address, :zip_code, :state_abbr, :contact_email)
+		params.require(:office).permit(:phone, :street_address, :zip_code, :state_abbr, :contact_email, :city)
 	end
 
 end

@@ -13,7 +13,7 @@
 		<% if current_user.admin? %>
 			<%= render 'admin/navbar' %>
 		<% else %>
-			<%= render current_user.role.name %>
+			<%= render 'office/navbars/' + current_user.role.name.downcase %>
 		<% end %>
 	<% end %>
 
