@@ -9,9 +9,17 @@
 </head>
 <body>
 
-<div class="container">
-	<%= yield %>
-</div>
+	<% if current_user %>
+		<% if current_user.admin? %>
+			<%= render 'admin/navbar' %>
+		<% else %>
+			<%= render current_user.role.name %>
+		<% end %>
+	<% end %>
+
+	<div class="container">
+		<%= yield %>
+	</div>
 
 </body>
 </html>
