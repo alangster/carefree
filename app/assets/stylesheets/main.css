@@ -1,0 +1,11 @@
+/* Dashboard Styling */
+
+
+img#user-photo {
+	display: inline-block;
+}
+
+h3#user-name {
+	display: inline-block;
+	margin-left: 6px;
+}

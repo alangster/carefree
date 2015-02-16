@@ -65,7 +65,13 @@ RSpec.describe User, :type => :model do
 			@user.send_password_reset
 			expect(ActionMailer::Base.deliveries.count).to eq(1)
 		end
+	end
 
+	describe '#name' do 
+		it 'returns user full name' do 
+			expect(build(:user).name).to eq('Joe Bags')
+			expect(build(:user, first_name: 'Benedict', last_name: 'Cumberbatch').name).to eq('Benedict Cumberbatch')
+		end
 	end
 
 end
