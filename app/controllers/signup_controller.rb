@@ -9,9 +9,9 @@ class SignupController < ApplicationController
 			redirect_to :root
 		end
 	end
-
+ 
 	def office_contact
-		if @office = Office.find_by(id: params[:office_id])
+		if @office = Office.find_by(join_token: params[:office_join_token])
 			@user = User.new(new_user_params)
 			@user.office = @office 
 			@user.role = Role.find_by(name: 'HR')
