@@ -29,6 +29,12 @@ class User < ActiveRecord::Base
 	before_create { generate_token(:password_reset_token) }
 	before_create { generate_token(:auth_token) }
 
+	def self.search(args)
+		if args[:query] && args[:office_id]
+			where('office_id = :office_id AND last_name LIKE :query', args.update({ query: "%#{args[:query]}%" }))			
+		end
+	end
+
 	def send_password_reset
 		generate_token(:password_reset_token)
 		self.password_reset_sent_at = Time.zone.now

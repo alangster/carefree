@@ -119,4 +119,13 @@ RSpec.describe User, :type => :model do
 		end
 	end
 
+	describe '.search' do 
+		describe 'with incomplete arguments' do 
+			it 'returns nil' do 
+				expect(User.search({query: 'name'})).to be_nil
+				expect(User.search({office_id: 2})).to be_nil
+			end
+		end
+	end
+
 end
