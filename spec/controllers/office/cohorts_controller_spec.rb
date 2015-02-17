@@ -1,0 +1,50 @@
+require 'rails_helper'
+
+RSpec.describe Office::CohortsController, :type => :controller do 
+
+	before(:each) do 
+		allow(controller).to receive(:require_login).and_return(true)
+		allow(controller).to receive(:valid_office).and_return(true)
+	end
+
+	describe 'POST create' do 
+		before(:each) do 
+			allow(controller).to receive(:require_hr).and_return(true)
+			allow(controller).to receive(:current_user).and_return(build(:user))
+			@new_cohort = build(:cohort, id: 1)
+			allow(Cohort).to receive(:new).and_return(@new_cohort)
+		end
+
+		describe 'successful save' do 
+			it 'redirects to newly-created cohort' do 
+				allow(@new_cohort).to receive(:save).and_return(true)
+				post :create, name: 'Mudpuppies'
+				expect(response).to be_redirect
+			end
+		end
+
+		describe 'unsuccessful save' do 
+			it 're-renders the form' do 
+				allow(@new_cohort).to receive(:save).and_return(false)
+				post :create, name: 'Mudpuppies'
+				expect(response).to render_template('office/cohorts/new')
+			end
+		end
+	end
+
+	describe 'GET show' do 
+		describe 'user is hr rep' do 
+			before(:each) do 
+				allow(controller).to receive(:user_is_hr).and_return(true)
+				allow(Cohort).to receive(:includes).and_return(Cohort)
+				allow(Cohort).to receive(:find_by).and_return(build(:cohort))
+			end
+
+			it 'renders the hr-specific template' do 
+				get :show, id: 1
+				expect(response).to render_template('hr_cohort')
+			end
+		end
+	end
+
+end

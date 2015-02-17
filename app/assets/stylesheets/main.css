@@ -1,6 +1,8 @@
 /* Dashboard Styling */
 
 
+
+
 img#user-photo {
 	display: inline-block;
 }
@@ -8,4 +10,16 @@ img#user-photo {
 h3#user-name {
 	display: inline-block;
 	margin-left: 6px;
+}
+
+div#manage-cohorts-links h2 {
+	display: inline-block;
+}
+
+div#manage-cohorts-links button {
+	display: inline-block;
+}
+
+div#cohorts-list {
+	border: 1px solid grey;
 }

@@ -40,4 +40,8 @@ class User < ActiveRecord::Base
 		"#{first_name} #{last_name}"
 	end
 
+	def supervisor?
+		self.role ? (self.role.name == 'HR' || self.role.name == 'Manager') : false
+	end
+
 end

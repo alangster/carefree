@@ -8,6 +8,10 @@ module ApplicationHelper
 		"#{office.company.name}, #{office.city}"
 	end
 
+	def user_is_hr
+		current_user.role.name == 'HR'
+	end
+
 	def us_states
 		[
 	 		['AK', 'AK'],
