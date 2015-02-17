@@ -74,4 +74,58 @@ RSpec.describe User, :type => :model do
 		end
 	end
 
+	describe '#supervisor?' do 
+		describe 'user is a supervisor' do 
+			context 'user is a manager' do 
+				it 'returns true' do 
+					manager_role = build(:role, name: 'Manager')
+					user = build(:user, role: manager_role)
+					expect(user).to be_supervisor 
+				end
+			end
+
+			context 'user is an hr rep' do 
+				it 'returns true' do 
+					hr_role = build(:role, name: 'HR')
+					user = build(:user, role: hr_role)
+					expect(user).to be_supervisor
+				end
+			end
+		end
+
+		describe 'user is not a supervisor' do 
+			context 'user is a new hire' do 
+				it 'returns false' do 
+					new_hire_role = build(:role, name: 'New Hire')
+					user = build(:user, role: new_hire_role)
+					expect(user).not_to be_supervisor
+				end
+			end
+
+			context 'user is a buddy' do 
+				it 'returns false' do 
+					buddy_role = build(:role, name: 'Buddy')
+					user = build(:user, role: buddy_role)
+					expect(user).not_to be_supervisor
+				end
+			end
+
+			context 'user has no role' do 
+				it 'returns false' do 
+					user = build(:user)
+					expect(user).not_to be_supervisor
+				end
+			end
+		end
+	end
+
+	describe '.search' do 
+		describe 'with incomplete arguments' do 
+			it 'returns nil' do 
+				expect(User.search({query: 'name'})).to be_nil
+				expect(User.search({office_id: 2})).to be_nil
+			end
+		end
+	end
+
 end

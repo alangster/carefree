@@ -1,0 +1,41 @@
+<div class='row'>
+	<div class='col-md-4'>
+		<%= render 'office/users/profile_photo_area' %>
+	</div>
+	<div class='col-md-8'></div>
+</div>
+<div class='row'>
+	<div class='col-md-1'></div>
+	<div class='col-md-1'></div>
+	<div class='col-md-1'>
+		<button id='new-cohort' class='btn btn-default btn-large'>New Cohort</button>
+	</div>
+	<div class='col-md-1'></div>
+
+	<div id='cohorts-list' class='col-md-8'>
+		<div id='new-cohort-form' style='display:none'>
+			<%= render 'form' %>
+		</div>
+		<div id='inner-cohorts-list'>
+			<% if @cohorts.count > 0 %>
+				<%= render @cohorts %>
+			<% else %>
+				<h2>You don't have any cohorts!</h2>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function() {
+		$('button#new-cohort').on('click', function() {
+			$('div#inner-cohorts-list').hide();
+			$('div#new-cohort-form').show();
+		});
+
+		$('button#remove-form').on('click', function() {
+			$('div#inner-cohorts-list').show();
+			$('div#new-cohort-form').hide();
+		});
+	});
+</script>

@@ -1,8 +1,40 @@
 <div class='row'>
 	<div class='col-md-4'>
-		<img id='user-photo' class='img-thumbnail' src=<%= current_user.photo || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50" %>>
-		<h3 id='user-name'><%= current_user.name %></h3>		
+		<%= render 'profile_photo_area' %>
 	</div>
-	<!-- <div class='col-md-1'></div> -->
-	<div class='col-md-8' style='border:1px solid grey'></div>
+
+	<div class='col-md-8'>
+		<div class='row'>
+			<div class='col-md-6'>
+				<h2>Budget</h2>
+			</div>
+			<div class='col-md-3'>
+				<div id='new-cohort-form' style='display:none'>
+					<%= render 'office/cohorts/form' %>
+				</div>
+				<div id='manage-cohorts-links'>
+					<%= link_to(cohorts_path) do %> 
+						<h2>Cohorts</h2>
+					<% end %>
+					<button id='new-cohort-button' class='btn btn-default'>New!</button>
+				</div>
+			</div>
+			<div class='col-md-3'><h2>Resources</h2></div>
+		</div>
+	</div>
 </div>
+
+
+<script>
+	$(function() {
+		$('button#new-cohort-button').on('click', function() {
+			$('div#manage-cohorts-links').hide();
+			$('div#new-cohort-form').show();
+		});
+
+		$('button#remove-form').on('click', function() {
+			$('div#manage-cohorts-links').show();
+			$('div#new-cohort-form').hide();
+		});
+	});
+</script>

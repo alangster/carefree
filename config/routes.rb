@@ -20,8 +20,13 @@ Rails.application.routes.draw do
 
 
   scope module: 'office' do 
-    resources :users, except: [:create]
+    resources :users, except: [:create] do 
+      collection do 
+        get 'search'
+      end
+    end
     get 'dashboard', to: 'users#dashboard'
+    resources :cohorts
   end
 
   resources :password_resets, only: [:new, :create, :edit, :update]
