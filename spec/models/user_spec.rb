@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe User, :type => :model do
 
+	before(:each) do 
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+	end
+
 	describe 'token generator' do 
 		context 'on creation' do 
 			it 'generates a password_reset token' do
@@ -42,9 +48,6 @@ RSpec.describe User, :type => :model do
 
 	describe '#send_password_reset' do 
 		before(:each) do 
-			ActionMailer::Base.delivery_method = :test
-	    ActionMailer::Base.perform_deliveries = true
-	    ActionMailer::Base.deliveries = []
 	    @user = build(:user, password_reset_token: 'token')
 	    allow(@user).to receive(:save!).and_return(true)
 		end
@@ -125,6 +128,37 @@ RSpec.describe User, :type => :model do
 				expect(User.search({query: 'name'})).to be_nil
 				expect(User.search({office_id: 2})).to be_nil
 			end
+		end
+	end
+
+	describe '.send_cohort_join' do 
+		it 'sends an email' do 
+			build(:user).send_cohort_join('token')
+			expect(ActionMailer::Base.deliveries.count).to eq(1)
+		end
+	end
+
+	describe '.add_new' do 
+		describe 'with empty array' do 
+			it 'returns an empty array' do 
+				expect(User.add_new(users: '')).to be_empty
+			end
+		end
+
+		describe 'with New Hire role' do 
+			describe 'with space-separated email addresses' do 
+				before(:each) do 
+					@user_emails = Array.new(4) {|num| "user#{num}@aol.com"}.join(' ')
+				end
+
+				# describe 'all new users' do 
+				# 	it 'forces creation of new users' do 
+						# expect{ User.add_new(@user_emails) }.to change{ User.count }.by(4)
+				# 	end
+				# end
+			end
+
+
 		end
 	end
 
