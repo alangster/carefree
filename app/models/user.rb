@@ -29,10 +29,27 @@ class User < ActiveRecord::Base
 	before_create { generate_token(:password_reset_token) }
 	before_create { generate_token(:auth_token) }
 
-	def self.search(args)
-		if args[:query] && args[:office_id]
-			where('office_id = :office_id AND last_name LIKE :query', args.update({ query: "%#{args[:query]}%" }))			
+	class << self
+
+		def search(args)
+			if args[:query] && args[:office_id]
+				where('office_id = :office_id AND last_name LIKE :query', args.update({ query: "%#{args[:query]}%" }))			
+			end
 		end
+
+		def add_new(args)
+			args[:users].split(/[\s;,]+/).map do |email|
+				user = find_or_initialize_by(email: email)
+				user.role_id = args[:role]
+				user.save(validate: false)
+				user
+			end.each {|inv_user| inv_user.send_cohort_join(args[:cohort])}
+		end
+
+	end
+
+	def send_cohort_join(token)
+		UserMailer.cohort_join(self, token).deliver
 	end
 
 	def send_password_reset

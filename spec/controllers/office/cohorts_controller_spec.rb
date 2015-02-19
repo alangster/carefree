@@ -47,4 +47,25 @@ RSpec.describe Office::CohortsController, :type => :controller do
 		end
 	end
 
+	describe 'POST new_hires' do 
+		before(:each) do 
+			allow(controller).to receive(:user_is_hr).and_return(true)
+			allow(User).to receive(:add_new).and_return(true)
+			allow(Cohort).to receive(:find).and_return(build(:cohort, join_token: 'token'))
+			allow(Role).to receive(:find_by).and_return(build(:role, id: 1))
+			users = Array.new(4) { build(:user) }
+			@params = {emails: users.map(&:email).join(' '), id: 2}
+		end
+
+		it 'calls User.add_new' do 
+			expect(User).to receive(:add_new).and_return(true)
+			post :new_hires, @params
+		end
+
+		it 'sends 200 status code' do 
+			post :new_hires, @params
+			expect(response).to have_http_status_code(200)
+		end
+	end
+
 end

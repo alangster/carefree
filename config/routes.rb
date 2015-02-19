@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'signup/office/:office_join_token', to: 'signup#new_office'
   post 'signup/office/:office_join_token', to: 'signup#office_contact', as: :office_contact
 
+  get '/signup/cohort/new_hire/:join_token', to: 'signup#new_hire_join', as: :new_hire_join
 
   scope module: 'office' do 
     resources :users, except: [:create] do 
@@ -26,7 +27,11 @@ Rails.application.routes.draw do
       end
     end
     get 'dashboard', to: 'users#dashboard'
-    resources :cohorts
+    resources :cohorts do 
+      member do 
+        post 'new_hires'
+      end
+    end
   end
 
   resources :password_resets, only: [:new, :create, :edit, :update]

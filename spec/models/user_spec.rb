@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe User, :type => :model do
 
+	before(:each) do 
+		ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.perform_deliveries = true
+    ActionMailer::Base.deliveries = []
+	end
+
 	describe 'token generator' do 
 		context 'on creation' do 
 			it 'generates a password_reset token' do
@@ -42,9 +48,6 @@ RSpec.describe User, :type => :model do
 
 	describe '#send_password_reset' do 
 		before(:each) do 
-			ActionMailer::Base.delivery_method = :test
-	    ActionMailer::Base.perform_deliveries = true
-	    ActionMailer::Base.deliveries = []
 	    @user = build(:user, password_reset_token: 'token')
 	    allow(@user).to receive(:save!).and_return(true)
 		end
@@ -128,4 +131,49 @@ RSpec.describe User, :type => :model do
 		end
 	end
 
+	describe '.send_cohort_join' do 
+		it 'sends an email' do 
+			build(:user).send_cohort_join('token')
+			expect(ActionMailer::Base.deliveries.count).to eq(1)
+		end
+	end
+
+	describe '.add_new' do 
+		describe 'with empty array' do 
+			it 'returns an empty array' do 
+				expect(User.add_new(users: '')).to be_empty
+			end
+		end
+
+		describe 'with New Hire role' do 
+			describe 'with space-separated email addresses' do 
+				before(:each) do 
+					@user_emails = Array.new(4) {|num| "user#{num}@aol.com"}.join(' ')
+				end
+
+				describe 'all new users' do 
+					it 'forces creation of new users' do 
+						args = {users: @user_emails, role: 1, cohort: 'token'}
+						expect{ User.add_new(args) }.to change{ User.count }.by(4)
+						User.last(4).each(&:delete)
+					end
+				end
+
+				describe 'mix of old and new users' do 
+					it 'adds new users to the database' do 
+						new_user1, new_user2 = create(:user), create(:user)
+						new_user3, new_user4 = build(:user), build(:user)
+						users = [new_user1, new_user2, new_user3, new_user4]
+						user_emails = users.map(&:email).shuffle.join(' ').strip
+						args = {users: user_emails, role: 1, cohort: 'token'}
+
+						expect{ User.add_new(args) }.to change{ User.count }.by(2)
+						new_user1.reload
+						expect(new_user1.role_id).to eq(1)
+						User.last(4).each(&:delete)
+					end
+				end
+			end
+		end
+	end
 end
