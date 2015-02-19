@@ -151,15 +151,29 @@ RSpec.describe User, :type => :model do
 					@user_emails = Array.new(4) {|num| "user#{num}@aol.com"}.join(' ')
 				end
 
-				# describe 'all new users' do 
-				# 	it 'forces creation of new users' do 
-						# expect{ User.add_new(@user_emails) }.to change{ User.count }.by(4)
-				# 	end
-				# end
+				describe 'all new users' do 
+					it 'forces creation of new users' do 
+						args = {users: @user_emails, role: 1, cohort: 'token'}
+						expect{ User.add_new(args) }.to change{ User.count }.by(4)
+						User.last(4).each(&:delete)
+					end
+				end
+
+				describe 'mix of old and new users' do 
+					it 'adds new users to the database' do 
+						new_user1, new_user2 = create(:user), create(:user)
+						new_user3, new_user4 = build(:user), build(:user)
+						users = [new_user1, new_user2, new_user3, new_user4]
+						user_emails = users.map(&:email).shuffle.join(' ').strip
+						args = {users: user_emails, role: 1, cohort: 'token'}
+
+						expect{ User.add_new(args) }.to change{ User.count }.by(2)
+						new_user1.reload
+						expect(new_user1.role_id).to eq(1)
+						User.last(4).each(&:delete)
+					end
+				end
 			end
-
-
 		end
 	end
-
 end

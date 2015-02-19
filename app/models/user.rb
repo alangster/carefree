@@ -38,10 +38,11 @@ class User < ActiveRecord::Base
 		end
 
 		def add_new(args)
-			args[:users].split(/[\s;,]/).map do |email|
+			args[:users].split(/[\s;,]+/).map do |email|
 				user = find_or_initialize_by(email: email)
-				user.role = args[:role]
+				user.role_id = args[:role]
 				user.save(validate: false)
+				user
 			end.each {|inv_user| inv_user.send_cohort_join(args[:cohort])}
 		end
 
