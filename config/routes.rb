@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     resources :cohorts do 
       member do 
         post 'new_hires'
+        post 'managers'
       end
     end
   end
