@@ -16,10 +16,34 @@ class SignupController < ApplicationController
 			@user.office = @office 
 			@user.role = Role.find_by(name: 'HR')
 			if @user.save
-				session[:user_id] = @user.id
+				cookies[:auth_token] = @user.auth_token
 				redirect_to dashboard_path(@user)
 			else
 				render 'new_office'
+			end
+		else
+			redirect_to :root
+		end
+	end
+
+	def new_hire_join
+		if @cohort = Cohort.includes(:office).find_by(join_token: params[:join_token])
+			@user = User.new
+			render 'new_hire_join'
+		else
+			redirect_to :root
+		end
+	end
+
+	def new_hire
+		if @cohort = Cohort.find_by(join_token: params[:join_token])
+			if @user = User.find_by(email: params[:user][:email]) && @user.update_attributes(user_params)	
+				@user.cohorts << @cohort 
+	      cookies[:auth_token] = @user.auth_token
+				redirect_to dashboard_path(@user)
+			else
+				@error = "Hmm, that's not right. Please be sure to use the email address at which you received the email. You will be able to change it later."
+				render 'new_hire'
 			end
 		else
 			redirect_to :root
