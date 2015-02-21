@@ -80,7 +80,7 @@ RSpec.describe SignupController, :type => :controller do
 		end
 	end
 
-	describe 'GET new_hire_join' do 
+	describe 'GET new_cohort_join' do 
 		describe 'with a valid cohort' do 
 			before(:each) do 
 				@cohort = build(:cohort)
@@ -89,13 +89,13 @@ RSpec.describe SignupController, :type => :controller do
 			end
 
 			it 'instantiates a new user' do 
-				get :new_hire_join, join_token: 'token'
+				get :new_cohort_join, join_token: 'token'
 				expect(assigns(:user)).to be_a_new(User)
 			end
 
 			it 'renders the signup form' do 
-				get :new_hire_join, join_token: 'token'
-				expect(response).to render_template('signup/new_hire_join')
+				get :new_cohort_join, join_token: 'token'
+				expect(response).to render_template('signup/new_cohort_join')
 			end
 		end
 
@@ -106,20 +106,20 @@ RSpec.describe SignupController, :type => :controller do
 			end
 
 			it 'redirects to root' do 
-				get :new_hire_join, join_token: 'token'
+				get :new_cohort_join, join_token: 'token'
 				expect(response).to redirect_to(root_path)
 			end
 		end
 	end
 
-	describe 'POST new_hire' do 
+	describe 'POST join_cohort' do 
 		describe 'with an invalid cohort' do 
 			before(:each) do 
 				allow(Cohort).to receive(:find_by).and_return(nil)
 			end
 
 			it 'redirects to the root' do 
-				post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+				post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
 				expect(response).to redirect_to(root_path)
 			end
 		end
@@ -136,13 +136,13 @@ RSpec.describe SignupController, :type => :controller do
 				end
 
 				it 'assigns an error' do 
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
 					expect(assigns(:error)).not_to be_nil
 				end
 
 				it 're-renders the form' do 
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
-					expect(response).to render_template('signup/new_hire_join')
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
+					expect(response).to render_template('signup/new_cohort_join')
 				end
 			end
 
@@ -154,13 +154,13 @@ RSpec.describe SignupController, :type => :controller do
 				end
 
 				it 'assigns an error' do 
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
 					expect(assigns(:error)).not_to be_nil
 				end
 
 				it 're-renders the form' do 
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
-					expect(response).to render_template('signup/new_hire_join')
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
+					expect(response).to render_template('signup/new_cohort_join')
 				end
 			end
 
@@ -172,18 +172,18 @@ RSpec.describe SignupController, :type => :controller do
 				end
 
 				it 'makes the user a member of the cohort' do 
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
 					expect(@user.cohorts.first.name).to eq('Mudpuppies')
 				end
 
 				it 'sets the cookie' do 
 					allow(@user).to receive(:auth_token).and_return('token')
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
 					expect(cookies[:auth_token]).to eq('token')
 				end
 
 				it 'redirects to the user dashboard' do 
-					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					post :join_cohort, { join_token: 'token', user: attributes_for(:user) }
 					expect(response).to redirect_to(dashboard_path(@user))
 				end
 			end

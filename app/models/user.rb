@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
 	end
 
 	def send_cohort_join(token)
-		UserMailer.cohort_join(self, token).deliver
+		UserMailer.cohort_join(self, token).deliver unless self.password 
 	end
 
 	def send_password_reset

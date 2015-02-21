@@ -57,6 +57,12 @@ class Office::CohortsController < OfficesController
 		head 200, content_type: 'text/html'
 	end
 
+	def managers
+		role_id = Role.find_by(name: 'Manager').id 
+		User.add_new(users: params[:emails].strip, role: role_id, cohort: Cohort.find(params[:id]).join_token)
+		head 200, content_type: 'text/html'
+	end
+
 	private
 
 	def require_hr

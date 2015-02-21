@@ -18,8 +18,8 @@ Rails.application.routes.draw do
   get 'signup/office/:office_join_token', to: 'signup#new_office'
   post 'signup/office/:office_join_token', to: 'signup#office_contact', as: :office_contact
 
-  get 'signup/cohort/new_hire/:join_token', to: 'signup#new_hire_join', as: :new_hire_join
-  post 'signup/cohort/new_hire/:join_token', to: 'signup#new_hire', as: :new_hire
+  get 'signup/cohort/:join_token', to: 'signup#new_cohort_join', as: :cohort_join
+  post 'signup/cohort/:join_token', to: 'signup#join_cohort', as: :cohort
 
   scope module: 'office' do 
     resources :users, except: [:create] do 
@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     resources :cohorts do 
       member do 
         post 'new_hires'
+        post 'managers'
       end
     end
   end

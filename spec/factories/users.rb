@@ -27,4 +27,8 @@ FactoryGirl.define do
     password_confirmation 'boom'
   end
 
+  factory :blank_user, class: 'User' do 
+    sequence(:email)      {|n| "user#{n}@factory.com"}
+  end
+
 end
