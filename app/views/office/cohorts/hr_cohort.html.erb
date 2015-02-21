@@ -49,25 +49,26 @@
 
 <script>
 	$(function() {
-		$('#tabs').tab();
 
 		$('#add-managers-form').on('submit', function(e) {
 			e.preventDefault();
+			var form = $(this);
 			var url = $(this).attr('action');
 			var data = $(this).serialize();
 			$.post(url, data)
 				.done(function(response) {
-					console.log(response);
-				})
+					form[0].reset();
+				});
 		});
 
 		$('#new-hires-form').on('submit', function(e) {
 			e.preventDefault();
+			var form = $(this);
 			var url = $(this).attr('action');
 			var data = $(this).serialize();
 			$.post(url, data)
 				.done(function(response) {
-					console.log(response);
+					form[0].reset();
 				});
 		});
 	});
