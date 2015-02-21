@@ -132,8 +132,14 @@ RSpec.describe User, :type => :model do
 	end
 
 	describe '.send_cohort_join' do 
+		describe 'preexisting user' do 
+			it 'does not send an email' do 
+				build(:user).send_cohort_join('token')
+				expect(ActionMailer::Base.deliveries.count).to eq(0)
+			end
+		end
 		it 'sends an email' do 
-			build(:user).send_cohort_join('token')
+			build(:blank_user).send_cohort_join('token')
 			expect(ActionMailer::Base.deliveries.count).to eq(1)
 		end
 	end
