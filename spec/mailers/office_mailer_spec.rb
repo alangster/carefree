@@ -13,8 +13,8 @@ RSpec.describe OfficeMailer, :type => :mailer do
 	end
 
 	describe 'new_office_signup' do 
-		let(:office) {build(:office, email: 'hr@company.com')}
-		let(:mail)   {OfficeMailer.new_office_signup(office)}
+		# let(:office) {build(:office, email: 'hr@company.com')}
+		# let(:mail)   {OfficeMailer.new_office_signup(office)}
 
 
 	end
