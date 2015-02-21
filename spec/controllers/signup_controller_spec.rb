@@ -112,4 +112,82 @@ RSpec.describe SignupController, :type => :controller do
 		end
 	end
 
+	describe 'POST new_hire' do 
+		describe 'with an invalid cohort' do 
+			before(:each) do 
+				allow(Cohort).to receive(:find_by).and_return(nil)
+			end
+
+			it 'redirects to the root' do 
+				post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+				expect(response).to redirect_to(root_path)
+			end
+		end
+
+		describe 'with a valid cohort' do 
+			before(:each) do 
+				@cohort = build(:cohort, name: 'Mudpuppies')
+				allow(Cohort).to receive(:find_by).and_return(@cohort)
+			end
+
+			describe 'user not already in database' do 
+				before(:each) do 
+					allow(User).to receive(:find_by).and_return(nil)
+				end
+
+				it 'assigns an error' do 
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(assigns(:error)).not_to be_nil
+				end
+
+				it 're-renders the form' do 
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(response).to render_template('signup/new_hire_join')
+				end
+			end
+
+			describe 'user attributes do not update' do 
+				before(:each) do 
+					@user = build(:user)
+					allow(User).to receive(:find_by).and_return(@user)
+					allow(@user).to receive(:update_attributes).and_return(false)
+				end
+
+				it 'assigns an error' do 
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(assigns(:error)).not_to be_nil
+				end
+
+				it 're-renders the form' do 
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(response).to render_template('signup/new_hire_join')
+				end
+			end
+
+			describe 'user attributes successfully update' do 
+				before(:each) do 
+					@user = build(:user)
+					allow(User).to receive(:find_by).and_return(@user)
+					allow(@user).to receive(:update_attributes).and_return(true)
+				end
+
+				it 'makes the user a member of the cohort' do 
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(@user.cohorts.first.name).to eq('Mudpuppies')
+				end
+
+				it 'sets the cookie' do 
+					allow(@user).to receive(:auth_token).and_return('token')
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(cookies[:auth_token]).to eq('token')
+				end
+
+				it 'redirects to the user dashboard' do 
+					post :new_hire, { join_token: 'token', user: attributes_for(:user) }
+					expect(response).to redirect_to(dashboard_path(@user))
+				end
+			end
+		end
+	end
+
 end
