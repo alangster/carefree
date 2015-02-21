@@ -22,16 +22,16 @@ class SignupController < ApplicationController
 		end
 	end
 
-	def new_hire_join
+	def new_cohort_join
 		if @cohort = Cohort.includes(:office).find_by(join_token: params[:join_token])
 			@user = User.new
-			render 'new_hire_join'
+			render 'new_cohort_join'
 		else
 			redirect_to :root
 		end
 	end
 
-	def new_hire
+	def join_cohort
 		redirect_to :root and return unless @cohort = Cohort.find_by(join_token: params[:join_token])
 		@user = User.find_by(email: params[:user][:email]) 
 	  if @user && @user.update_attributes(new_user_params)	
@@ -40,7 +40,7 @@ class SignupController < ApplicationController
 			redirect_to dashboard_path(@user)
 		else
 			@error = "Hmm, that's not right. Please be sure to use the email address at which you received the email. You will be able to change it later."
-			render 'new_hire_join'
+			render 'new_cohort_join'
 		end
 	end
 
