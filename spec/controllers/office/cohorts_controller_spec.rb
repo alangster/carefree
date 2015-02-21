@@ -10,16 +10,22 @@ RSpec.describe Office::CohortsController, :type => :controller do
 	describe 'POST create' do 
 		before(:each) do 
 			allow(controller).to receive(:require_hr).and_return(true)
-			allow(controller).to receive(:current_user).and_return(build(:user))
+			@user = build(:user)
+			allow(controller).to receive(:current_user).and_return(@user)
 			@new_cohort = build(:cohort, id: 1)
 			allow(Cohort).to receive(:new).and_return(@new_cohort)
 		end
 
-		describe 'successful save' do 
+		describe 'successful save' do
 			it 'redirects to newly-created cohort' do 
 				allow(@new_cohort).to receive(:save).and_return(true)
 				post :create, name: 'Mudpuppies'
 				expect(response).to be_redirect
+			end
+
+			it 'makes current_user cohort member' do 
+				expect(@user).to receive(:cohorts).and_return([])
+				post :create, name: 'Mudpuppies'
 			end
 		end
 
@@ -64,7 +70,7 @@ RSpec.describe Office::CohortsController, :type => :controller do
 
 		it 'sends 200 status code' do 
 			post :new_hires, @params
-			expect(response).to have_http_status_code(200)
+			expect(response).to have_http_status(200)
 		end
 	end
 

@@ -44,6 +44,7 @@ class Office::CohortsController < OfficesController
 	def create
 		cohort = Cohort.new(name: params[:name], office: current_user.office)
 		if cohort.save
+			current_user.cohorts << cohort 
 			redirect_to cohort_path(cohort) 
 		else
 			render :new

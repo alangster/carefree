@@ -11,18 +11,36 @@ class SignupController < ApplicationController
 	end
  
 	def office_contact
-		if @office = Office.find_by(join_token: params[:office_join_token])
-			@user = User.new(new_user_params)
-			@user.office = @office 
-			@user.role = Role.find_by(name: 'HR')
-			if @user.save
-				session[:user_id] = @user.id
-				redirect_to dashboard_path(@user)
-			else
-				render 'new_office'
-			end
+		redirect_to :root and return unless @office = Office.find_by(join_token: params[:office_join_token])
+		@user = User.new(new_user_params)
+		@user.update_attributes(office: @office, role: Role.find_by(name: 'HR'))
+		if @user.save
+			cookies[:auth_token] = @user.auth_token
+			redirect_to dashboard_path(@user)
+		else
+			render 'new_office'
+		end
+	end
+
+	def new_hire_join
+		if @cohort = Cohort.includes(:office).find_by(join_token: params[:join_token])
+			@user = User.new
+			render 'new_hire_join'
 		else
 			redirect_to :root
+		end
+	end
+
+	def new_hire
+		redirect_to :root and return unless @cohort = Cohort.find_by(join_token: params[:join_token])
+		@user = User.find_by(email: params[:user][:email]) 
+	  if @user && @user.update_attributes(new_user_params)	
+			@user.cohorts << @cohort
+      cookies[:auth_token] = @user.auth_token
+			redirect_to dashboard_path(@user)
+		else
+			@error = "Hmm, that's not right. Please be sure to use the email address at which you received the email. You will be able to change it later."
+			render 'new_hire_join'
 		end
 	end
 

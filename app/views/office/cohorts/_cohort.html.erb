@@ -1,3 +1,3 @@
 <div class='cohort-summary'>
-	<h3><%= cohort.name || 'Unnamed Cohort' %> <small> <%= cohort.created_at.strftime('Created: %B %d, %Y') %></small></h3>
+	<h3><%= link_to "#{cohort.name || 'Unnamed Cohort'}", cohort %> <small> <%= cohort.created_at.strftime('Created: %B %d, %Y') %></small></h3>
 </div>
