@@ -5,7 +5,7 @@
 			<h4><%= @error %></h4>
 		<% end %>
 		<h2>Join your <%= office_title(@cohort.office) %> cohort.</h2>
-		<%= form_for @user, { url: cohort_path(@cohort.join_token), method: 'post' } do |f| %>
+		<%= form_for @user, { url: join_cohort_path(@cohort.join_token), method: 'post' } do |f| %>
 			<%= render partial: 'signup_form', locals: {f: f} %>
 		<% end %>
 	</div>
