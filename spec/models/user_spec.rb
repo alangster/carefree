@@ -46,6 +46,16 @@ RSpec.describe User, :type => :model do
 		end
 	end
 
+	describe 'checklist creation' do 
+		it 'creates a checklist for the user' do 
+			user = build(:user)
+			expect(user.checklist).to be_nil
+			user.save
+			expect(user.checklist).not_to be_nil
+			user.destroy
+		end
+	end
+
 	describe '#send_password_reset' do 
 		before(:each) do 
 	    @user = build(:user, password_reset_token: 'token')
