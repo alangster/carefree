@@ -17,6 +17,7 @@ User.create!(first_name:            'The',
 						 password:              'password',
 						 password_confirmation: 'password')
 
-
+Company.create!(name: 'Dentoflex')
+Office.create!()
 
 
