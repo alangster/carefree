@@ -1,8 +1,5 @@
 /* Dashboard Styling */
 
-
-
-
 img#user-photo {
 	display: inline-block;
 }
@@ -21,5 +18,13 @@ div#manage-cohorts-links button {
 }
 
 div#cohorts-list {
-	border: 1px solid grey;
+	border: 1px solid gray;
+}
+
+
+/* Cohort Pinterest Style Layout */
+
+div.item {
+	width: 25%;
+	border: 1px solid blue;
 }
