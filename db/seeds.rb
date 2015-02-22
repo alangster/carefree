@@ -20,12 +20,12 @@ User.create!(first_name:            'The',
 dentoflex = Company.create!(name: 'Dentoflex')
 
 dento_office = Office.create!(company:        dentoflex,
-							 phone:          '847-998-7674',
-							 street_address: '743 Waveland Ave',
-							 zip_code:       '60061',
-							 state_abbr:     'IL',
-							 city:           'Vernon Hills',
-							 contact_email:  'fourfourvh@sbcglobal.net')
+							                phone:          '847-998-7674',
+							                street_address: '743 Waveland Ave',
+							                zip_code:       '60061',
+							                state_abbr:     'IL',
+							                city:           'Vernon Hills',
+							                contact_email:  'fourfourvh@sbcglobal.net')
 
 joe = User.create(first_name:            'Joe',
 									last_name:             'Bags',
