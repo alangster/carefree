@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
 
 	has_one :budget, as: :budgetable
 
-	has_many :checklists
-	has_many :tasks, through: :checklists
+	has_one :checklist
+	has_many :tasks, through: :checklist
 	has_many :assigned_tasks, class_name: 'Task', foreign_key: 'assigner_id'
 
 	belongs_to :role
@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
 
 	before_create { generate_token(:password_reset_token) }
 	before_create { generate_token(:auth_token) }
+
+	after_create :make_personal_checklist
 
 	class << self
 
@@ -65,6 +67,12 @@ class User < ActiveRecord::Base
 
 	def supervisor?
 		self.role ? (self.role.name == 'HR' || self.role.name == 'Manager') : false
+	end
+
+	private
+
+	def make_personal_checklist
+		self.checklist = Checklist.create(user: self)
 	end
 
 end
