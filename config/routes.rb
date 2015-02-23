@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   post 'signup/office/:office_join_token', to: 'signup#office_contact', as: :office_contact
 
   get 'signup/cohort/:join_token', to: 'signup#new_cohort_join', as: :cohort_join
-  post 'signup/cohort/:join_token', to: 'signup#join_cohort', as: :cohort
+  post 'signup/cohort/:join_token', to: 'signup#join_cohort', as: :join_cohort
 
   scope module: 'office' do 
     resources :users, except: [:create] do 

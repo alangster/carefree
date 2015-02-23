@@ -46,9 +46,26 @@
 	</div>
 </div>
 
+<div class='row'>
+	<div class='col-md-2'></div>
+	<div class='col-md-8'>
+		<div id='masonry-container'>
+			<%= render @cohort.members %>
+		</div>
+	</div>
+</div>
+
 
 <script>
 	$(function() {
+
+		var $container = $('#masonry-container');
+		$container.masonry({
+			columnWidth: 60,
+			itemSelector: '.masonry-item',
+
+			// gutter: 10
+		})
 
 		$('#add-managers-form').on('submit', function(e) {
 			e.preventDefault();
