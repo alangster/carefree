@@ -1,3 +1,5 @@
-<div class='item'>
-	USER
+<div class='masonry-item <%= user.supervisor? ? 'supervisor' : 'non-supervisor' %>'>
+	<img id='user-photo' class='img-thumbnail' src=<%= user.photo || "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50" %>>
+	<h4 class='user-name'><%= user.name %></h4>
+	<h5><%= user.email %></h5>
 </div>

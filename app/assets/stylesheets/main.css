@@ -1,10 +1,19 @@
+* {
+	webkit-box-sizing: border-box;
+	moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+}
+
 /* Dashboard Styling */
+
+
 
 img#user-photo {
 	display: inline-block;
 }
 
-h3#user-name {
+h3#user-name, .user-name {
 	display: inline-block;
 	margin-left: 6px;
 }
@@ -24,7 +33,27 @@ div#cohorts-list {
 
 /* Cohort Pinterest Style Layout */
 
-div.item {
-	width: 25%;
-	border: 1px solid blue;
+div#masonry-container {
+/* 	margin: 0 auto; */
+/* 	border: 1px solid gray; */
+}
+
+div.masonry-item {
+	color: white;
+	padding: 6px;
+	border-radius: 3px;
+	-webkit-box-shadow: 20px 10px 6px -6px #777;
+ 	   -moz-box-shadow: 20px 10px 6px -6px #777;
+	        box-shadow: 2px 10px 6px -6px #777;
+	min-width: 200px;
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+
+div.supervisor {
+	background-color: #1D3040; 
+}
+
+div.non-supervisor {
+	background-color: #6AAEE5;
 }
