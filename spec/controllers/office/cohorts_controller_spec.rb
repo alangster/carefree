@@ -95,4 +95,26 @@ RSpec.describe Office::CohortsController, :type => :controller do
 		end
 	end
 
+	describe 'PUT update' do 
+		before(:each) do 
+			allow(controller).to receive(:user_is_hr).and_return(true)
+			@cohort = create(:cohort, name: 'Cohort1')
+			allow(Cohort).to receive(:find).and_return(@cohort)
+		end
+		after(:each) do 
+			@cohort.destroy
+		end
+
+		it 'changes the cohort name' do 
+			expect(@cohort.name).to eq('Cohort1')
+			put :update, { id: 1, cohort: { name: 'Cohort2' } }
+			expect(@cohort.name).to eq('Cohort2')
+		end
+
+		it 'redirects to the updated cohort' do 
+			put :update, { id: 1, cohort: { name: 'Cohort2' } }
+			expect(response).to redirect_to(cohort_path(@cohort))
+		end
+	end
+
 end

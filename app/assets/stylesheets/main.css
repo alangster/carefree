@@ -30,6 +30,15 @@ div#cohorts-list {
 	border: 1px solid gray;
 }
 
+/* HR Cohort Display */
+
+h1 {
+	cursor: pointer;
+}
+
+div#name-change-form {
+	display: none;
+}
 
 /* Cohort Pinterest Style Layout */
 
