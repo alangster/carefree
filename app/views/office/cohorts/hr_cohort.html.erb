@@ -2,7 +2,20 @@
 	<div class='col-md-4'>
 		<%= render 'office/users/profile_photo_area' %>
 	</div>
-	<div class='col-md-8'></div>
+	<div class='col-md-4'>
+		<% if @cohort.name %>
+			<h1 id='cohort-title'><%= @cohort.name %></h1>
+			<div id='name-change-form'>
+				<%= form_for @cohort do |f| %>
+					<div class='form-group'>
+						<%= f.text_field :name, class: 'form-control' %>
+						<%= f.submit 'Change Name', class: 'btn btn-default' %>
+					</div>	
+				<% end %>
+			</div>
+		<% end %>
+	</div>
+	<div class='col-md-4'></div>
 </div>
 
 <div class='row'>
@@ -62,10 +75,12 @@
 		var $container = $('#masonry-container');
 		$container.masonry({
 			columnWidth: 60,
-			itemSelector: '.masonry-item',
+			itemSelector: '.masonry-item'
+		});
 
-			// gutter: 10
-		})
+		$('#cohort-title').on('click', function() {
+			$('#name-change-form').show();
+		});
 
 		$('#add-managers-form').on('submit', function(e) {
 			e.preventDefault();

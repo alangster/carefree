@@ -7,6 +7,12 @@ class Office::CohortsController < OfficesController
 		@cohorts = current_user.cohorts.order(:created_at) 
 	end
 
+	def update
+		cohort = Cohort.find(params[:id])
+		cohort.update_attributes(name: params[:cohort][:name])
+		redirect_to cohort
+	end
+
 	def new
 	end
 
